@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+<meta charset="UTF-8">
+<title>Find My Buddy — SkillSync</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Syne:wght@700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #0b0c10;
+    --surface: #13151c;
+    --border: #232736;
+    --accent: #63b3ed;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; font-family:'DM Sans'; }
+
+body { background:var(--bg); color:var(--text); }
+
+/* SIDEBAR SAME AS OTHER PAGES */
+.sidebar {
+    position: fixed;
+    width:260px;
+    height:100vh;
+    background:var(--surface);
+    border-right:1px solid var(--border);
+    padding:20px;
+}
+
+.nav-link {
+    display:flex;
+    gap:10px;
+    padding:12px;
+    color:var(--muted);
+    text-decoration:none;
+    border-radius:10px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background:rgba(99,179,237,0.1);
+    color:var(--accent);
+}
+
+/* MAIN */
+.main {
+    margin-left:260px;
+    padding:40px;
+}
+
+.grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:20px;
+}
+
+.card {
+    background:var(--surface);
+    border:1px solid var(--border);
+    padding:20px;
+    border-radius:12px;
+}
+
+.btn {
+    background:var(--accent);
+    border:none;
+    padding:10px;
+    width:100%;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✅ SIDEBAR -->
+<aside class="sidebar">
+    <h2 style="margin-bottom:20px;">⚡ SkillSync</h2>
+
+    <a href="dashboard.html" class="nav-link">📊 AI Analysis</a>
+    <a href="hackathons.html" class="nav-link">🏆 Hackathons</a>
+    <a href="jobs.html" class="nav-link">💼 Opportunities</a>
+    <a href="courses.html" class="nav-link">📚 Upskilling</a>
+    <a href="clubs.html" class="nav-link">🎪 Campus Clubs</a>
+    <a href="buddies.html" class="nav-link active">🤝 Find My Buddy</a>
+</aside>
+
+<!-- ✅ MAIN -->
+<main class="main">
+
+    <h1>🤝 Find My Buddy</h1>
+    <p style="color:var(--muted); margin-bottom:20px;">
+        Connect with peers for projects
+    </p>
+
+    <button class="btn" onclick="openModal()">+ Post Request</button>
+
+    <div class="grid" id="feed" style="margin-top:20px;"></div>
+
+</main>
+
+<!-- MODAL -->
+<div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
+    <div style="background:#13151c; padding:20px; border-radius:10px; width:300px;">
+        <input id="event" placeholder="Event" style="width:100%; margin:5px 0;">
+        <input id="roles" placeholder="Roles (comma separated)" style="width:100%; margin:5px 0;">
+        <input id="contact" placeholder="Contact" style="width:100%; margin:5px 0;">
+        <button class="btn" onclick="post()">Submit</button>
+    </div>
+</div>
+
+<script>
+function openModal() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function post() {
+    let event = document.getElementById("event").value;
+    let roles = document.getElementById("roles").value;
+
+    let card = `
+        <div class="card">
+            <h3>${event}</h3>
+            <p style="color:#94a3b8">${roles}</p>
+            <button class="btn">Connect</button>
+        </div>
+    `;
+
+    document.getElementById("feed").innerHTML += card;
+    document.getElementById("modal").style.display = "none";
+}
+</script>
+
+</body>
+</html>

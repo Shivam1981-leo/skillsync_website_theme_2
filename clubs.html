@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Clubs — SkillSync MIT-WPU</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           SKILLSYNC MASTER STYLESHEET
+           ========================================= */
+        :root {
+            --bg-color: #0b0c10;
+            --surface: #13151c;
+            --surface-hover: #1c1f2a;
+            --border: #232736;
+            --accent: #63b3ed;
+            --accent-hover: #4299e1;
+            --text-main: #f1f5f9;
+            --muted: #94a3b8;
+            
+            --blue-bg: rgba(99, 179, 237, 0.15); --blue-text: #90cdf4;
+            --green-bg: rgba(104, 211, 145, 0.15); --green-text: #9ae6b4;
+            --orange-bg: rgba(246, 173, 85, 0.15); --orange-text: #fbd38d;
+            --purple-bg: rgba(183, 148, 244, 0.15); --purple-text: #d6bcfa;
+            --red-bg: rgba(252, 129, 129, 0.15); --red-text: #feb2b2;
+            --gray-bg: rgba(148, 163, 184, 0.15); --gray-text: #cbd5e1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; overflow-x: hidden; }
+
+        /* Sidebar & Layout */
+        .sidebar { position: fixed; top: 0; left: 0; width: 260px; height: 100vh; background-color: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 20px; z-index: 100; }
+        .main { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+
+        .sidebar-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); margin-bottom: 40px; padding: 0 10px; }
+        .sidebar-logo-icon { font-size: 1.5rem; background: var(--blue-bg); padding: 8px; border-radius: 10px; }
+        .sidebar-logo-text { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        .sidebar-logo-text span { color: var(--accent); }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; text-decoration: none; color: var(--muted); font-weight: 500; border-radius: 12px; transition: all 0.2s ease; }
+        .nav-link:hover { background-color: var(--surface-hover); color: var(--text-main); }
+        .nav-link.active { background-color: var(--blue-bg); color: var(--accent); border: 1px solid rgba(99, 179, 237, 0.2); }
+
+        /* Topbar & Search */
+        .topbar { height: 80px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(11, 12, 16, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 90; }
+        .topbar-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 12px;}
+        .wpu-badge { background: #fff; color: #000; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; font-weight: 800; }
+        
+        .search-container { flex: 0 1 400px; margin: 0 20px; position: relative; }
+        .search-container input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 10px 16px 10px 40px; border-radius: 20px; outline: none; font-family: inherit; font-size: 0.9rem; transition: border-color 0.2s; }
+        .search-container input:focus { border-color: var(--accent); }
+        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 0.9rem; opacity: 0.5; }
+
+        .profile-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--purple-text)); border: 2px solid var(--surface); cursor: pointer;}
+
+        /* Main Content */
+        .page-content { padding: 40px; flex: 1; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+
+        /* UI Elements */
+        .btn-primary { background-color: var(--accent); color: #0b0c10; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s; font-family: inherit;}
+        .btn-primary:hover { background-color: var(--accent-hover); }
+        .btn-secondary { background-color: transparent; color: var(--muted); border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; font-family: inherit;}
+        .btn-secondary:hover { border-color: var(--muted); color: var(--text-main); }
+
+        .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-blue { background: var(--blue-bg); color: var(--blue-text); border: 1px solid rgba(99,179,237,0.2); }
+        .badge-green { background: var(--green-bg); color: var(--green-text); border: 1px solid rgba(104,211,145,0.2); }
+        .badge-orange { background: var(--orange-bg); color: var(--orange-text); border: 1px solid rgba(246,173,85,0.2); }
+        .badge-purple { background: var(--purple-bg); color: var(--purple-text); border: 1px solid rgba(183,148,244,0.2); }
+        .badge-gray { background: var(--gray-bg); color: var(--gray-text); border: 1px solid rgba(148,163,184,0.2); }
+
+        /* Club Specific Styles */
+        .view-tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+        .view-tab { padding: 10px 0; color: var(--muted); font-size: 1rem; font-weight: 600; cursor: pointer; position: relative; transition: color 0.2s; }
+        .view-tab.active { color: var(--accent); }
+        .view-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background-color: var(--accent); border-radius: 2px 2px 0 0; }
+
+        .pill-row { display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 5px; }
+        .pill-btn { padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+        .pill-btn.active, .pill-btn:hover { background: var(--border); color: var(--text-main); }
+
+        .club-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; position: relative; transition: transform 0.2s; }
+        .club-card:hover { transform: translateY(-3px); border-color: rgba(99,179,237,0.3); }
+        
+        .club-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        .club-title-area h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .club-stats { font-size: 0.8rem; color: var(--muted); }
+        
+        .status { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: var(--bg-color); height: fit-content;}
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .status.open .status-dot { background: #68d391; box-shadow: 0 0 8px #68d391; }
+        .status.closed .status-dot { background: #fc8181; }
+
+        .club-tags { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+        .c-tag { font-size: 0.7rem; color: var(--muted); background: var(--bg-color); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
+
+        .club-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; flex: 1; }
+        
+        .event-box { background: rgba(255,255,255,0.03); border: 1px dashed var(--border); border-radius: 8px; padding: 12px; margin-bottom: 20px; }
+        .event-label { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px;}
+        .event-title { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+
+        .club-actions { display: flex; justify-content: flex-end; align-items: center; margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px;}
+        
+        .role-tag { font-family: 'Syne', sans-serif; font-size: 0.9rem; color: var(--orange-text); font-weight: 700; margin-bottom: 15px;}
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 12, 16, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 550px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .modal-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
+        .close-btn { background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; }
+        .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+        .ai-pitch-box { background: linear-gradient(145deg, rgba(99,179,237,0.05), transparent); border: 1px solid rgba(99,179,237,0.2); border-radius: 12px; padding: 16px; position: relative; }
+        .box-label { font-size: 0.75rem; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        .skills-box { border: 1px dashed var(--border); border-radius: 12px; padding: 16px; }
+        .attachment-box { display: flex; align-items: center; gap: 10px; padding: 10px 4px; }
+        .modal-footer { padding: 20px 24px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; }
+
+        /* Utilities */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .no-results { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <a class="sidebar-logo" href="dashboard.html">
+        <div class="sidebar-logo-icon">⚡</div>
+        <div class="sidebar-logo-text">Skill<span>Sync</span></div>
+    </a>
+    <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link active">
+            <span class="nav-icon">📊</span> AI Analysis
+        </a>
+        <a href="hackathons.html" class="nav-link">
+            <span class="nav-icon">🏆</span> Hackathons
+        </a>
+        <a href="jobs.html" class="nav-link">
+            <span class="nav-icon">💼</span> Opportunities
+        </a>
+        <a href="courses.html" class="nav-link">
+            <span class="nav-icon">📚</span> Upskilling
+        </a>
+        <a href="clubs.html" class="nav-link">
+    <span class="nav-icon">🎪</span> Campus Clubs
+</a>
+<a href="buddies.html" class="nav-link">
+    <span class="nav-icon">🤝</span> Find My Buddy
+</a>
+    </nav>
+</aside>
+
+<main class="main">
+    <div class="topbar">
+        <div class="topbar-title">Clubs Directory <span class="wpu-badge">MIT-WPU</span></div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="club-search" placeholder="Search clubs, tags, or categories..." onkeyup="handleSearch()">
+        </div>
+        <div class="profile-avatar"></div>
+    </div>
+
+    <div class="page-content">
+        
+        <div class="view-tabs fade-up" style="animation-delay: 0.1s;">
+            <div class="view-tab active" onclick="switchView('discover')">🔍 Discover</div>
+            <div class="view-tab" onclick="switchView('my-clubs')">🎪 My Clubs (1)</div>
+            <div class="view-tab" onclick="switchView('applications')">📝 Applications (1)</div>
+        </div>
+
+        <div id="view-discover" class="view-section active fade-up" style="animation-delay: 0.2s;">
+            <div class="pill-row">
+                <button class="pill-btn active" onclick="filterCategory(this, 'all')">All Groups</button>
+                <button class="pill-btn" onclick="filterCategory(this, 'tech')">Technical & Innovation</button>
+                <button class="pill-btn" onclick="filterCategory(this, 'cultural')">Cultural & Arts</button>
+                <button class="pill-btn" onclick="filterCategory(this, 'sports')">Sports & Racing</button>
+                <button class="pill-btn" onclick="filterCategory(this, 'social')">Social & Management</button>
+            </div>
+            <div class="grid-auto" id="discover-grid"></div>
+        </div>
+
+        <div id="view-my-clubs" class="view-section fade-up d2">
+            <h2 style="font-family:'Syne',sans-serif; margin-bottom:20px;">Your Active Communities</h2>
+            <div class="grid-auto">
+                <div class="club-card" style="border-color: var(--accent);">
+                    <div class="club-header">
+                        <div class="club-title-area">
+                            <h3>Innovation Hub</h3>
+                            <div class="club-stats">Joined: Aug 2025</div>
+                        </div>
+                    </div>
+                    <div class="role-tag">👑 Role: Technical Core Member</div>
+                    <div class="club-desc">Working collectively to devise innovative hardware and software solutions, participating in hackathons, and preparing projects for market launch.</div>
+                    
+                    <div class="event-box" style="background: rgba(99,179,237,0.05); border-color: rgba(99,179,237,0.3);">
+                        <div class="event-label">Internal Team Task</div>
+                        <div class="event-title">⚠️ Complete Arduino/8051 Sensor Integration.</div>
+                    </div>
+
+                    <div class="club-actions" style="justify-content: space-between;">
+                        <button class="btn-secondary">Open Group Chat</button>
+                        <button class="btn-primary">Export to Resume ⚡</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-applications" class="view-section fade-up d2">
+            <h2 style="font-family:'Syne',sans-serif; margin-bottom:20px;">Application Status</h2>
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="margin-bottom: 5px;">ACM Club (MIT-WPU Chapter)</h3>
+                    <p style="font-size: 0.85rem; color: var(--muted);">Applied for: Development & Coding Wing</p>
+                </div>
+                <div style="text-align: right;">
+                    <span class="badge badge-orange" style="margin-bottom: 5px;">Interview Pending</span>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Scheduled: Tomorrow, 2:00 PM</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div class="modal-overlay" id="apply-modal">
+    <div class="modal-box fade-up">
+        <div class="modal-header">
+            <div>
+                <h2 style="font-family:'Syne',sans-serif; font-size: 1.3rem;">Application: <span id="modal-club-name" style="color: var(--accent);">Club Name</span></h2>
+                <p style="font-size: 0.85rem; color: var(--muted);">SkillSync AI is generating your targeted pitch...</p>
+            </div>
+            <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="ai-pitch-box">
+                <div class="box-label">✨ AI Generated Cover Note</div>
+                <p id="modal-pitch" style="font-size: 0.9rem; color: var(--text-main); line-height: 1.6;">...</p>
+            </div>
+
+            <div class="skills-box">
+                <div class="box-label">🎯 Highlighting Your Skills</div>
+                <div id="modal-skills" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;"></div>
+            </div>
+
+            <div class="attachment-box">
+                <input type="checkbox" id="attach-resume" checked>
+                <label for="attach-resume" style="font-size: 0.9rem; cursor: pointer;">Attach SkillSync Profile</label>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="btn-primary" id="submit-btn" onclick="submitApplication()">🚀 Send Application</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* =====================================================================
+   FRONTEND LOGIC & BACKEND INTEGRATION NOTES
+   ===================================================================== */
+
+/* BACKEND DEV NOTE #1: THE DATA SOURCE
+   Right now, this array acts as a mock database. 
+   When connecting Firebase (Firestore), delete `mockFirebaseData`.
+   Instead, initialize an empty array `let firebaseData = [];`
+   and write a function that fetches from your "clubs" collection:
+
+   async function fetchClubsFromFirebase() {
+       const snapshot = await db.collection('clubs').get();
+       firebaseData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+       renderClubs(); // Call render once data is fetched
+   }
+*/
+let mockFirebaseData = [
+    {
+        id: "c1", name: "INIT-Cloud Club", category: "tech",
+        stats: "💻 Technical • Cloud & Coding", status: "open", statusText: "Recruiting", tags: ["Cloud Computing", "AWS", "Coding"],
+        desc: "Fostering a community of cloud computing enthusiasts. We actively participate in coding competitions.",
+        eventLabel: "Next Actionable Event", eventTitle: "📅 Cloud Architecture Bootcamp (Saturday)",
+        aiPitch: "I have strong logic implementation capabilities using C++ and experience structuring backend database schemas.",
+        matchSkills: ["C++", "MySQL & DBMS", "Logic Design"]
+    },
+    {
+        id: "c2", name: "Team Nemesis Racing", category: "sports",
+        stats: "🏎️ Technical Racing • Baja SAE", status: "closed", statusText: "Core Full", tags: ["Automotive", "CAD", "Mechanics"],
+        desc: "The official off-road racing team of MIT-WPU. We design, manufacture, and race All-Terrain Vehicles (ATVs).",
+        eventLabel: "Upcoming Track Day", eventTitle: "🏁 Suspension Testing Demo (Oct 22nd)",
+        aiPitch: "I have experience working with hardware integrations and microcontrollers. I am eager to apply my systems knowledge.",
+        matchSkills: ["Hardware Prototyping", "Microcontrollers"]
+    },
+    {
+        id: "c3", name: "Aarohan Cultural Club", category: "cultural",
+        stats: "🎭 Cultural • Music & Drama", status: "open", statusText: "Auditions Open", tags: ["Theatre", "Music", "Dance"],
+        desc: "The heartbeat of MIT-WPU's cultural fests. We represent the university in state-level street plays and dance competitions.",
+        eventLabel: "Audition Deadline", eventTitle: "🎤 Submit 1-min performance video by Friday",
+        aiPitch: "As a creative thinker with experience in frontend UI and Unity design, I bring a strong aesthetic sense.",
+        matchSkills: ["Creative Prototyping", "Unity"]
+    }
+];
+
+let currentCategory = 'all';
+let searchQuery = '';
+let currentlyApplyingClubId = null;
+
+/* BACKEND DEV NOTE #2: RENDERING THE GRID
+   This function reads the data array and builds the HTML. 
+   If you structure your Firebase documents to match the keys above 
+   (name, category, tags, desc), you won't need to change anything here.
+*/
+function renderClubs() {
+    const grid = document.getElementById('discover-grid');
+    grid.innerHTML = ''; 
+
+    const filteredData = mockFirebaseData.filter(club => {
+        const matchesCategory = currentCategory === 'all' || club.category === currentCategory;
+        const searchLower = searchQuery.toLowerCase();
+        const matchesSearch = club.name.toLowerCase().includes(searchLower) || 
+                              club.tags.join(' ').toLowerCase().includes(searchLower) ||
+                              club.desc.toLowerCase().includes(searchLower);
+        return matchesCategory && matchesSearch;
+    });
+
+    if (filteredData.length === 0) {
+        grid.innerHTML = `<div class="no-results">No clubs found matching your criteria.</div>`;
+        return;
+    }
+
+    filteredData.forEach(club => {
+        const tagsHtml = club.tags.map(tag => `<span class="c-tag">#${tag}</span>`).join('');
+        
+        const btnHtml = club.status === 'open' 
+            ? `<div style="width:100%; display:flex; justify-content: flex-end;"><button class="btn-primary" onclick="openModal('${club.id}')">Apply Now</button></div>`
+            : `<div style="width:100%; display:flex; justify-content: flex-end;"><button class="btn-secondary">Notify on Opening</button></div>`;
+
+        const cardHtml = `
+            <div class="club-card fade-up">
+                <div class="club-header">
+                    <div class="club-title-area">
+                        <h3>${club.name}</h3>
+                        <div class="club-stats">${club.stats}</div>
+                    </div>
+                    <div class="status ${club.status}">
+                        <div class="status-dot"></div> ${club.statusText}
+                    </div>
+                </div>
+                
+                <div class="club-tags">${tagsHtml}</div>
+                <div class="club-desc">${club.desc}</div>
+                
+                <div class="event-box">
+                    <div class="event-label">${club.eventLabel}</div>
+                    <div class="event-title">${club.eventTitle}</div>
+                </div>
+
+                <div class="club-actions">
+                    ${btnHtml}
+                </div>
+            </div>
+        `;
+        grid.innerHTML += cardHtml;
+    });
+}
+
+function switchView(viewId) {
+    const tabs = document.querySelectorAll('.view-tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const views = document.querySelectorAll('.view-section');
+    views.forEach(view => {
+        view.classList.remove('active');
+        view.classList.remove('fade-up');
+    });
+
+    const selectedView = document.getElementById('view-' + viewId);
+    selectedView.classList.add('active');
+    void selectedView.offsetWidth; 
+    selectedView.classList.add('fade-up');
+}
+
+function filterCategory(btn, category) {
+    document.querySelectorAll('.pill-btn').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    currentCategory = category;
+    renderClubs(); 
+}
+
+function handleSearch() {
+    searchQuery = document.getElementById('club-search').value;
+    renderClubs(); 
+}
+
+function openModal(clubId) {
+    const club = mockFirebaseData.find(c => c.id === clubId);
+    if(!club) return;
+    
+    currentlyApplyingClubId = clubId;
+
+    document.getElementById('modal-club-name').innerText = club.name;
+    document.getElementById('modal-pitch').innerText = '"' + club.aiPitch + '"';
+    
+    const skillsHtml = club.matchSkills.map(skill => `<span class="badge badge-purple">${skill}</span>`).join('');
+    document.getElementById('modal-skills').innerHTML = skillsHtml;
+
+    document.getElementById('apply-modal').classList.add('active');
+}
+
+function closeModal() {
+    document.getElementById('apply-modal').classList.remove('active');
+    currentlyApplyingClubId = null;
+}
+
+/* BACKEND DEV NOTE #3: HANDLING FORM SUBMISSION
+   This function currently fakes a network request using setTimeout.
+   You will need to replace the setTimeout block with a Firebase write:
+   
+   await db.collection('applications').add({
+       userId: currentUser.uid,
+       clubId: currentlyApplyingClubId,
+       pitchText: document.getElementById('modal-pitch').innerText,
+       includeResume: document.getElementById('attach-resume').checked,
+       status: 'pending',
+       timestamp: firebase.firestore.FieldValue.serverTimestamp()
+   });
+*/
+function submitApplication() {
+    const btn = document.getElementById('submit-btn');
+    btn.innerHTML = 'Sending...';
+    btn.style.opacity = '0.7';
+    
+    // BACKEND DEV: Replace this block with your Firebase POST request
+    setTimeout(() => {
+        // Success state UI update
+        btn.innerHTML = '✅ Sent Successfully';
+        btn.style.background = '#68d391'; 
+        btn.style.color = '#0b0c10';
+        
+        setTimeout(() => {
+            closeModal();
+            // Reset button for the next application
+            btn.innerHTML = '🚀 Send Application';
+            btn.style.background = '';
+            btn.style.opacity = '1';
+        }, 1500);
+    }, 1000);
+}
+
+// Initial Render on page load
+window.onload = () => {
+    // BACKEND DEV NOTE: Call your fetchClubsFromFirebase() function here instead
+    renderClubs();
+};
+</script>
+</body>
+</html>
