@@ -3,6 +3,8 @@
 A full-stack resume analysis web app deployed on **Vercel** — no server required.  
 Upload a PDF resume, paste a job description, and get an instant ATS score with skill gap analysis.
 
+zoom out to 75 percent or more for best view
+
 ---
 
 ## 🌐 Live Pages
