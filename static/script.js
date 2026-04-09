@@ -167,7 +167,7 @@ async function uploadResume() {
     }
 
     try {
-        const res  = await fetch('http://127.0.0.1:5000/api/upload', { method: 'POST', body: formData });
+        const res  = await fetch('/api/upload', { method: 'POST', body: formData });
         if (!res.ok) throw new Error('Server error');
         const data = await res.json();
 

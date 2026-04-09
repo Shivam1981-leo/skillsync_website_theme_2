@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/upload.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "static/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/upload",
+      "dest": "/api/upload.py"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(dashboard|hackathons|jobs|courses|buddies|clubs)\\.html",
+      "dest": "/$1.html"
+    },
+    {
+      "src": "/(.*)\\.html",
+      "dest": "/$1.html"
+    }
+  ]
+}
